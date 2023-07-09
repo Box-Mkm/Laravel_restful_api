@@ -15,7 +15,9 @@ class Lesson extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'body', 'user_id'
+        'title',
+        'body',
+        'user_id'
     ];
     public function user()
     {
