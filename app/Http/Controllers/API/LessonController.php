@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
+use App\Http\Resources\Lesson as LessonResource;
 
 class LessonController extends Controller
 {
@@ -13,7 +14,7 @@ class LessonController extends Controller
      */
     public function index()
     {
-        return Lesson::all();
+        return LessonResource::collection(Lesson::all());
     }
 
     /**
@@ -21,7 +22,8 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        return Lesson::create($request->all());
+        $lesson = new LessonResource(Lesson::create($request->all()));
+        return $lesson->response()->setStatusCode(200);
     }
 
     /**
@@ -29,7 +31,8 @@ class LessonController extends Controller
      */
     public function show($id)
     {
-        return Lesson::findOrFail($id);
+        $lesson = new LessonResource(Lesson::findOrFail($id));
+        return $lesson->response()->setStatusCode(200);
     }
 
     /**
@@ -37,9 +40,9 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $lesson = Lesson::findOrFail($id);
+        $lesson = new LessonResource(Lesson::findOrFail($id));
         $lesson->update($request->all());
-        return $lesson;
+        return $lesson->response()->setStatusCode(200);
     }
 
     /**

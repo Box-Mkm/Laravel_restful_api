@@ -26,9 +26,9 @@ Route::group(['prefix' => 'v1'], function () {
     //API v1 route here...
     Route::apiResource('lessons', LessonController::class);
 
-    Route::apiResource('user', UserController::class);
+    Route::apiResource('users', UserController::class);
 
-    Route::apiResource('Tag', TagController::class);
+    Route::apiResource('tags', TagController::class);
 
     Route::any('lesson', function () {
         $message = "Please Make sure to update your code to use the newer version of our API.

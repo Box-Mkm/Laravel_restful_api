@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\User as UserResource;
 
 class UserController extends Controller
 {
@@ -13,7 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        $user = UserResource::collection(User::all());
+        return $user->response()->setStatusCode(200);
     }
 
     /**
@@ -21,7 +23,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return User::create($request->all());
+        $user = new UserResource(User::create($request->all()));
+        return $user->response()->setStatusCode(200);
     }
 
     /**
@@ -29,7 +32,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return User::findOrFail($id);
+        $user = new UserResource(User::findOrFail($id));
+        return $user->response()->setStatusCode(200, 'User Returned Successfully')->header('additional header', true);
     }
 
     /**
@@ -37,9 +41,9 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = new UserResource(User::findOrFail($id));
         $user->update($request->all());
-        return $user;
+        return $user->response()->setStatusCode(200, 'User Updated Successfully');
     }
 
     /**
