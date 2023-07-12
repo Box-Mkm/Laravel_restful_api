@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,5 +29,52 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+    /**
+     * Report or log an exception.
+     *
+     * @param  \Throwable  $exception
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function report(Throwable $exception)
+    {
+        parent::report($exception);
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
+     */
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof ModelNotFoundException) {
+            return  Response::json([
+                'error' => [
+                    'message' => 'Not Found!'
+                ]
+            ], 404);
+        }
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return  Response::json([
+                'error' => [
+                    'message' => 'Not Supported for this route!'
+                ]
+            ], 404);
+        }
+        /*else{
+        return  Response::json([
+            'error' => [
+                'message' => 'Not Supported!'
+            ]
+        ], 404);
+        }*/
+        return parent::render($request, $exception);
     }
 }

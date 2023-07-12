@@ -29,7 +29,7 @@ class LessonController extends Controller
      */
     public function show($id)
     {
-        return Lesson::find($id);
+        return Lesson::findOrFail($id);
     }
 
     /**
@@ -37,7 +37,7 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $lesson = Lesson::findorfail($id);
+        $lesson = Lesson::findOrFail($id);
         $lesson->update($request->all());
         return $lesson;
     }
@@ -47,7 +47,7 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
-        Lesson::find($id)->delete();
+        Lesson::findOrFail($id)->delete();
         return 204;
     }
 }

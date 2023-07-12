@@ -29,7 +29,7 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        return Tag::find($id);
+        return Tag::findOrFail($id);
     }
 
     /**
@@ -37,7 +37,7 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $tag = Tag::findorfail($id);
+        $tag = Tag::findOrFail($id);
         $tag->update($request->all());
         return $tag;
     }
@@ -47,7 +47,7 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        tag::find($id)->delete();
+        tag::findOrFail($id)->delete();
         return 204;
     }
 }
