@@ -10,6 +10,15 @@ use App\Http\Resources\Tag as TagResource;
 class TagController extends Controller
 {
     /**
+     * Instantiate a new controller instance
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth.basic.once')->except(['index', 'show']);
+    }
+    /**
      * Display a listing of the resource.
      */
     public function index()
