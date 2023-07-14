@@ -31,6 +31,7 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Tag::class);
         $tag = new TagResource(Tag::create($request->all()));
         return $tag->response()->setStatusCode(200);
     }
@@ -49,6 +50,8 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $tagid = Tag::findOrfail($id);
+        $this->authorize('update', $tagid);
         $tag = new TagResource(Tag::findOrFail($id));
         $tag->update($request->all());
         return $tag->response()->setStatusCode(200);
@@ -59,6 +62,8 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
+        $tagid = Tag::findOrFail($id);
+        $this->authorize('delete', $tagid);
         tag::findOrFail($id)->delete();
         return 204;
     }

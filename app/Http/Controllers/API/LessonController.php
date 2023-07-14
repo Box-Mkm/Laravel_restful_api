@@ -49,6 +49,8 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $idlesson = Lesson::findOrFail($id);
+        $this->authorize('update', $idlesson);
         $lesson = new LessonResource(Lesson::findOrFail($id));
         $lesson->update($request->all());
         return $lesson->response()->setStatusCode(200);
@@ -59,6 +61,8 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
+        $idlesson = Lesson::findOrFail($id);
+        $this->authorize('delete', $idlesson);
         Lesson::findOrFail($id)->delete();
         return 204;
     }
