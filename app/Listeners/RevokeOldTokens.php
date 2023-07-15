@@ -22,6 +22,7 @@ class RevokeOldTokens
      */
     public function handle(AccessTokenCreated $event): void
     {
+        // delete user's old token when creating a new one
         Token::where([
             ['user_id', $event->userId],
             ['id', '<>', $event->tokenId]
